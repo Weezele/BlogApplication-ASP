@@ -86,5 +86,19 @@ namespace BlogApplication.UI.Controllers
             return RedirectToAction("Edit", new {id = editTagRequest.Id});
         }
 
+        [HttpPost]
+        public IActionResult Delete(EditTagRequest editTagRequest)
+        {
+            var tag = dbContext.Tags.Find(editTagRequest.Id);
+            if (tag != null)
+            {
+                dbContext.Tags.Remove(tag);
+                dbContext.SaveChanges();
+
+                return RedirectToAction("List");
+            }
+            return RedirectToAction("Edit", new {id = editTagRequest.Id});
+        }
+
     }
 }
