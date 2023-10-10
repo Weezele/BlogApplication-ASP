@@ -9,30 +9,38 @@
 </div>
 
 <div class="container py-5">
-    <form method="post">
-        <div  class="mb-10">
-            <label class="form-lable">Id:</label>
-            <input type="text" id="id" class="form-control" asp-for="Id" readonly/>
-        </div>
-
-        <div class="mb-10">
-            <label class="form-lable">Name:</label>
-            <input type="text" id="name" class="form-control" asp-for="Name" />
-        </div>
-
-        <div class="mb-10">
-            <label class="form-lable">Display Name:</label>
-            <input type="text" id="displayName" class="form-control" asp-for="DisplayName" />
-        </div>
-
-        <div class="mb-5">
-
-            <div class="d-flex">
-                <button type="submit" class="btn btn-dark">Update</button>
-                <button class="btn btn-danger ms-2" type="submit" asp-area="" asp-controller="AdminTags" asp-action="Delete">Delete</button>
+    @if(Model != null)
+    {
+        <form method="post">
+            <div class="mb-10">
+                <label class="form-lable">Id:</label>
+                <input type="text" id="id" class="form-control" asp-for="Id" readonly />
             </div>
 
-        </div>
+            <div class="mb-10">
+                <label class="form-lable">Name:</label>
+                <input type="text" id="name" class="form-control" asp-for="Name" />
+            </div>
 
-    </form>
+            <div class="mb-10">
+                <label class="form-lable">Display Name:</label>
+                <input type="text" id="displayName" class="form-control" asp-for="DisplayName" />
+            </div>
+
+            <div class="mb-5">
+
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-dark">Update</button>
+                    <button class="btn btn-danger ms-2" type="submit" asp-area="" asp-controller="AdminTags" asp-action="Delete">Delete</button>
+                </div>
+
+            </div>
+
+        </form>
+    }
+    else
+    {
+        <p>Tag not found!</p>
+    }
+
 </div>
