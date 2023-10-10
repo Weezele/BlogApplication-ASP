@@ -1,5 +1,6 @@
 ﻿using BlogApplication.UI.Data;
 using BlogApplication.UI.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogApplication.UI.Repositories
 {
@@ -25,9 +26,9 @@ namespace BlogApplication.UI.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BlogPost>> GetAllAsync()
+        public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await dbContext.BlogPosts.Include(x=>x.Tags).ToListAsync();
         }
 
         public Task<BlogPost?> GetAsync(Guid id)

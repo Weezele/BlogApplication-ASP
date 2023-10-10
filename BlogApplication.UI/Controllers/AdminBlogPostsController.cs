@@ -43,7 +43,7 @@ namespace BlogApplication.UI.Controllers
                 ShortDescription = addBlogPostRequest.ShortDescription,
                 UrlHandler = addBlogPostRequest.UrlHandler,
                 Visible = addBlogPostRequest.Visible,
-                
+
             };
 
             // Map Tags from selected tags 
@@ -63,6 +63,15 @@ namespace BlogApplication.UI.Controllers
             await blogPostRepository.AddAsync(blogPost);
 
             return RedirectToAction("Add");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            // Call the repository
+            var blogPost = await blogPostRepository.GetAllAsync();
+
+            return View(blogPost);
         }
     }
 }
