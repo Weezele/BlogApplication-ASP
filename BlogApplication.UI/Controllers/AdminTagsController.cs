@@ -33,7 +33,19 @@ namespace BlogApplication.UI.Controllers
             dbContext.Tags.Add(tag);
             dbContext.SaveChanges();
 
-            return View("Add");
+            return RedirectToAction("List");
         }
+
+        [HttpGet]
+        [ActionName("List")]
+        public IActionResult List()
+        {
+            // Use dbContext to read the tags 
+
+            var tags = dbContext.Tags.ToList();
+
+            return View(tags);
+        } 
+
     }
 }
