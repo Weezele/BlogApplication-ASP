@@ -45,7 +45,46 @@ namespace BlogApplication.UI.Controllers
             var tags = dbContext.Tags.ToList();
 
             return View(tags);
-        } 
+        }
+
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+           var tag = dbContext.Tags.FirstOrDefault(t => t.Id == id);
+
+            if (tag! == null)
+            {
+                var editTaqRequest = new EditTagRequest {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                    DisplayName = tag.DisplayName
+                };
+                return View(editTaqRequest);
+            }
+            return View(null);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditTagRequest editTagRequest)
+        {
+            var tag = new Tag
+            {
+                Id = editTagRequest.Id,
+                Name = editTagRequest.Name,
+                DisplayName = editTagRequest.DisplayName
+            };
+
+           var existingTag = dbContext.Tags.Find(tag.Id);
+
+            if (existingTag != null)
+            {
+                existingTag.Name = tag.Name;
+                existingTag.DisplayName = tag.DisplayName;
+                dbContext.SaveChanges();
+                return RedirectToAction("Edit", new { id = editTagRequest.Id });
+            }
+            return RedirectToAction("Edit", new {id = editTagRequest.Id});
+        }
 
     }
 }
