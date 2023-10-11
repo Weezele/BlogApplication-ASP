@@ -45,7 +45,12 @@
                                     }
                                 </p>
                                 <p class="card-text">@blogPost.ShortDescription</p>
-                                <a href="#" class="btn btn-danger">Read More</a>
+                                <a class="btn btn-danger"
+                                   asp-area=""
+                                   asp-controller="Blogs"
+                                   asp-action="Index"
+                                   asp-route-urlHandler="@blogPost.UrlHandler"
+                                >Read More</a>
                             </div>
                         </div>
                     }

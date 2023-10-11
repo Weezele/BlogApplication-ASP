@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.blog-details-content{
+    max-width: 100%;
+
+}
