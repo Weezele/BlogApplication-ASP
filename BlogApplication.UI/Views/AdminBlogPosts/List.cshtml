@@ -1,5 +1,4 @@
 ﻿@model List<BlogApplication.UI.Models.Domain.BlogPost>
-
 @{
 }
 
@@ -9,16 +8,16 @@
     </div>
 </div>
 
-<div class="container py-10">
-    @if(Model !=null && Model.Any())
+<div class="container py-5">
+    @if (Model != null && Model.Any())
     {
         <table class="table">
             <thead>
                 <tr>
-                    <td>Id</td>
-                    <td>Heading</td>
-                    <td>Tags</td>
-                    <td></td>
+                    <th>Id</th>
+                    <th>Heading</th>
+                    <th>Tags</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,16 +35,15 @@
                             </div>
                         </td>
                         <td>
-                            <a asp-area="" asp-controller="AdminBlogPosts" asp-action="Edit" asp-route-id="@blogPost.Id">Edit</a>
+                            <a asp-area="" asp-controller="AdminBlogPosts" asp-action="Edit" asp-route-id="@blogPost.Id" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-    } 
+    }
     else
     {
         <p>No Blog Posts Found!</p>
     }
-
 </div>

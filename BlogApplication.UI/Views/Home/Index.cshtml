@@ -1,8 +1,60 @@
-﻿@{
+﻿@model List<BlogApplication.UI.Models.Domain.BlogPost>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-fluid p-0 bg-dark text-white">
+        <div class="container col-xxl-8 py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4">Bloggie - The Dev Blog</h1>
+                    <p class="lead">
+                        Bloggie is your one-stop destination for coding blogs, covering a wide range of topics like HTML, CSS, Flutter, JavaScript, ASP.NET, C#, and more. Stay up to date with the latest development articles by joining Bloggie and receiving weekly blogs in your email.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.pexels.com/photos/1181263/pexels-photo-1181263.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Bloggie - Dev blogs" class="img-fluid rounded-circle">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var blogPost in Model)
+                    {
+                        <div class="card mb-5 bg-secondary text-white">
+                            <img src="@blogPost.ImageUrl" alt="@blogPost.Heading" class="card-img-top">
+                            <div class="card-body">
+                                <h2 class="card-title">@blogPost.Heading</h2>
+                                <p class="card-text">Author: @blogPost.Author</p>
+                                <p class="card-text">Published Date: @blogPost.PublishedDate.ToShortDateString()</p>
+                                <p class="card-text">
+                                    @foreach (var tag in blogPost.Tags)
+                                    {
+                                        <span class="badge badge-light">@tag.Name</span>
+                                    }
+                                </p>
+                                <p class="card-text">@blogPost.ShortDescription</p>
+                                <a href="#" class="btn btn-danger">Read More</a>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
