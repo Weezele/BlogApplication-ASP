@@ -34,7 +34,9 @@ builder.Services.Configure<IdentityOptions>(
 
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
+builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
 builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
+
 
 var app = builder.Build();
 

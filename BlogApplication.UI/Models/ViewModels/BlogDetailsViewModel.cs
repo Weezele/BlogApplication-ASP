@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BlogApplication.UI.Models.Domain;
 
-namespace BlogApplication.UI.Models.Domain
+namespace BlogApplication.UI.Models.ViewModels
 {
-    public class BlogPost
+    public class BlogDetailsViewModel
     {
         public Guid Id { get; set; }
 
@@ -25,6 +25,7 @@ namespace BlogApplication.UI.Models.Domain
         public bool Visible { get; set; }
 
         public ICollection<Tag>? Tags { get; set; }
-        public ICollection<BlogPostLike> Likes { get; set; }
+
+        public int TotalLikes{ get; set; }
     }
 }

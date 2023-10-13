@@ -1,4 +1,7 @@
-﻿@model BlogApplication.UI.Models.Domain.BlogPost
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
+@model BlogApplication.UI.Models.ViewModels.BlogDetailsViewModel
 @{
     ViewData["Title"] = Model.PageTitle;
 }
@@ -7,14 +10,25 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-6">
 
-            @if(Model !=null)
+            @if (Model != null)
             {
                 <h1 class="mb-3">@Model?.Heading</h1>
 
                 <div class="d-flex justify-content-between mb-3">
                     <span class="text-secondary">@Model?.Author</span>
                     <span class="text-secondary">@Model?.PublishedDate.ToShortDateString()</span>
-                    
+
+                </div>
+
+                <div class="mb-3">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <a id="btnLike" style="cursor: pointer;">
+                            <i class="bi bi-hand-thumbs-up"></i>
+                        </a>
+                    }
+
+                    <span id="totalLikes">@Model.TotalLikes</span> likes
                 </div>
 
                 <div class="mb-3 d-flex">
@@ -24,12 +38,12 @@
                     }
                 </div>
 
-                <img  src="@Model?.ImageUrl" class="d-block img-fluid mb-3" />
+                <img src="@Model?.ImageUrl" class="d-block img-fluid mb-3" />
 
                 <div class="mb-3 blog-details-content">
                     @Html.Raw(Model?.Content)
                 </div>
-            } 
+            }
             else
             {
                 <p>Blog post not found!</p>
@@ -38,3 +52,62 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        const btnLikeElement = document.getElementById('btnLike');
+        const totalLikeElement = document.getElementById('totalLikes');
+        let likeInProgress = false;
+        async function getTotalLikes() {
+            fetch(`/api/blogpostlike/${'@Model.Id'}/totalLike`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(result => totalLikeElement.innerHTML = result)
+                .catch(error => console.error('Error:', error)); 
+        }
+
+
+
+
+        async function addLikeForBlog() {
+            if (likeInProgress) {
+                return; 
+            }
+
+            likeInProgress = true; 
+
+            fetch('/api/BlogPostLike/Add', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                },
+                body: JSON.stringify({
+                    blogPostId: '@Model.Id',
+                    userId: '@userManager.GetUserId(User)'
+                })
+            }).then(() => {
+                btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>';
+                getTotalLikes();
+
+               
+                setTimeout(() => {
+                    likeInProgress = false; 
+                    btnLikeElement.addEventListener('click', addLikeForBlog);
+                }, 1000); 
+            });
+        }
+
+        btnLikeElement.addEventListener('click', addLikeForBlog);
+    </script>
+}
