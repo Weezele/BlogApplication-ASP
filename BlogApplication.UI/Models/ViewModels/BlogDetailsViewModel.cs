@@ -27,5 +27,11 @@ namespace BlogApplication.UI.Models.ViewModels
         public ICollection<Tag>? Tags { get; set; }
 
         public int TotalLikes{ get; set; }
+
+        public bool liked { get; set; }
+        public string? CommentDescription { get; set; }
+
+        public IEnumerable<BlogComment> Comments { get; set; }
     }
+
 }
