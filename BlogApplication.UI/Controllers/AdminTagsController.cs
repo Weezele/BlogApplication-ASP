@@ -33,6 +33,12 @@ namespace BlogApplication.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddTagRequest addTagRequest)
         {
+            ValidateAddTagRequest(addTagRequest);
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
+
             // Mapping AddTagRequest to Tag domain model
             var tag = new Tag
             {
@@ -111,6 +117,18 @@ namespace BlogApplication.UI.Controllers
             else
             {
                 return RedirectToAction("Edit", new { id = editTagRequest.Id });
+            }
+        }
+
+
+        private void ValidateAddTagRequest(AddTagRequest request) 
+        {
+            if (request.Name is not null && request.DisplayName is not null)
+            {
+                if (request.Name == request.DisplayName)
+                {
+                    ModelState.AddModelError("DisplayName", "Name can not be the same as DisplayName");
+                }
             }
         }
 
